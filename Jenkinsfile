@@ -19,7 +19,7 @@ pipeline {
     steps{
         dependencyCheck additionalArguments: '''
             --scan ./
-            --out dependency-check-report
+            --out ./
             --format ALL
             --data $JENKINS_HOME/owasp-data
             --noupdate
