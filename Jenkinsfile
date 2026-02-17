@@ -22,7 +22,6 @@ pipeline {
             --out ./
             --format ALL
             --data $JENKINS_HOME/owasp-data
-            --noupdate
             --prettyPrint
         ''',
         odcInstallation: 'OWASP-depcheck'
