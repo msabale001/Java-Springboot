@@ -15,5 +15,14 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
+        stage('OWASP Dependency Check'){
+            steps{
+                dependencyCheck additionalArguments: '''
+                    --scan \'./\'
+                    --out \'./\'
+                    --format \'ALL\'
+                    --prettyPrint''', odcInstallation: 'OWASP-depcheck'
+            }
+        }
     }
 }
