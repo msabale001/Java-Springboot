@@ -21,6 +21,7 @@ pipeline {
                     --scan \'./\'
                     --out \'./\'
                     --format \'ALL\'
+                    --data /var/owasp-data
                     --prettyPrint''', odcInstallation: 'OWASP-depcheck'
             }
         }
