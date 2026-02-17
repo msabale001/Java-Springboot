@@ -16,17 +16,32 @@ pipeline {
             }
         }
         stage('OWASP Dependency Check'){
-            steps{
-                dependencyCheck additionalArguments: '''
-                    --scan \'./\'
-                    --out \'./\'
-                    --format \'ALL\'
-                    --data /var/owasp-data
-                    --noupdate
-                    --prettyPrint''', odcInstallation: 'OWASP-depcheck'
-                dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml'
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'dependency-check-jenkins.html',reportName: 'Dependency Check HTML Report', reportTitles: '',  useWrapperFileDirectly: true])
-            }
-        }
+    steps{
+        dependencyCheck additionalArguments: '''
+            --scan ./
+            --out dependency-check-report
+            --format ALL
+            --data $JENKINS_HOME/owasp-data
+            --noupdate
+            --prettyPrint
+        ''',
+        odcInstallation: 'OWASP-depcheck'
+
+        dependencyCheckPublisher(
+            failedTotalCritical: 1,
+            pattern: 'dependency-check-report/dependency-check-report.xml'
+        )
+
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'dependency-check-report',
+            reportFiles: 'dependency-check-report.html',
+            reportName: 'Dependency Check HTML Report'
+        ])
+    }
+}
+
     }
 }
